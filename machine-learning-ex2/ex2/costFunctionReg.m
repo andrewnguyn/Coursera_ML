@@ -27,16 +27,14 @@ grad = zeros(size(theta));
 hypot = sigmoid(X*theta);
 
 % grad1 = (1/m) * (hypot - y)' {118x1}' * (X(:,1)) {118x1};
-grad(1) = (1/m) * (hypot - y)' * (X(:,1));
+grad(1) = (1/m) * (X(:,1))' * (hypot - y);
 
 % grad(2:end) = (1/m) * (hypot - y)' {1x118} * X(:,2:end) {118x27} + (lambda/m) * theta(2:end) {27x1});
 % {27x1} = {27x1} + {27x1}
-grad(2:end) = (1/m) * ( (hypot - y)' * X(:,2:end) )' + (lambda/m) * theta(2:end);
+grad(2:end) = (1/m) * ( X(:,2:end)' * (hypot - y) ) + (lambda/m) * theta(2:end);
 
 % J = (1/m) * ( -y .* log(hypot) - (1-y) .* log(1 - hypot)) {118x1} + (lambda/(2*m)) * theta.^2 ) {28x1};
-J = (1/m) * sum( -y .* log(hypot) - (1-y) .* log(1 - hypot)) + (lambda/(2*m)) * sum(theta(2:end).^2) ;
-
-
+J = (1/m) * ( -y' * log(hypot) - (1-y)' * log(1 - hypot)) + (lambda/(2*m)) * sum(theta(2:end).^2) ;
 
 % =============================================================
 
